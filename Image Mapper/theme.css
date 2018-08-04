@@ -10,9 +10,7 @@ body {
 
 
 main {
-	/* IE Support */
 	display: block;
-	
 	/* Size */
 	max-width: 900px;
 	min-width: 500px;
@@ -33,8 +31,8 @@ main {
 section {
 	margin: .5em auto;
 }
-.top-section h1 { color: #12395b; }
-.top-section input {
+.top_section h1 { color: #12395b; }
+.top_section input {
 	max-width: 500px;
 	min-width: 300px;
 	width: 60%;
@@ -46,13 +44,14 @@ section {
 	text-align: left;
 	font-size: .9em;
 }
-.image-container {
+.image_container {
 	position: relative;
 	display: inline-block;
 	border: 1px solid black;
 	background-color: white;
+	overflow: hidden;
 }
-.html-gen-container #html-output {
+.html_gen_container #html_output {
 	margin: .5em auto;
 	display: block;
 	max-width: 700px;
@@ -64,14 +63,22 @@ section {
 }
 
 /* Generated Elements */
-.link-box {
-	position: absolute;
-	border: 2px solid red;
-	background: none;
-	resize: both;
-	overflow: auto;
+.link_box {
+	position: absolute !important;
 }
-.link-box:hover {
+.link_box_selected {
+	border: 1px solid orange;
+	background: rgba(216, 165, 34, .5) !important;
+}
+.link_box_red {
+	border: 1px solid red;
+	background: rgba(191, 1, 1, .5) !important;
+}
+.link_box_blue {
+	border: 1px solid blue;
+	background: rgba(0, 20, 178, .5) !important;
+}
+.link_box:hover {
 	cursor: pointer;
-	background: rgba(32, 57, 18, .5);
+	background: rgba(0, 0, 0, .5) !important;
 }
