@@ -146,7 +146,7 @@ function assignLink(event) {
 			link_index = i;
 		}
 	}
-	var new_link = prompt('Please enter the URL you want this area to link to:');
+	var new_link = prompt('Please enter the URL you want this area to link to:', all_area_tags[link_index].url);
 	all_area_tags[link_index].url = new_link;
 }
 
