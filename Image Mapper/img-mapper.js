@@ -107,7 +107,7 @@ function resetPage(event) {
 	jQuery('#unmapped-img').attr('src', defaultImgURL);
 	
 	/* Remove link-box div elements */
-	jQuery('.link-box').each(function(i, v) { v.remove(); });
+	jQuery('.link-box').each(function(i, v) { jQuery(v).remove(); });
 	
 	/* Clear html output text area */
 	jQuery('#html-output').val('');
