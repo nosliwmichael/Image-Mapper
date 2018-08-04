@@ -1,5 +1,5 @@
 /* ==========================
-		Global Variables
+        Global Variables
    ========================== */
 const defaultImgURL = 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png';
 
@@ -28,7 +28,7 @@ var $html_demo = null;
 
 
 /* ===================
-		Functions
+        Functions
    =================== */
 /* Initialize variables and event listeners */
 jQuery(document).ready(function() {
