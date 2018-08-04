@@ -5,48 +5,56 @@
 	<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
 	<title>Image Mapper</title>
 	<link rel="stylesheet" href="theme.css">
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
 <body>
 
 <main>
-	<section class="top-section">
+	<section class="top_section">
 		<h1>Create Links Over Your Image</h1>
-		<label to="url-input">URL: </label>
-		<input id="url-input">
+		<label to="url_input">URL: </label>
+		<input id="url_input">
 	</section>
 	
 	<section class="instructions">
 		<ol>
 			<li>Click and drag your mouse over the section of the image you want to have a link. 
 			    Left Mouse Button = Same Window, Right Mouse Button = New Window.</li>
-			<li>Click on one of your selected areas to set the URL for your link.</li>
+			<li>Double-click on one of your selected areas to set the URL for your link.</li>
 			<li>Click "Generate HTML" to see what the HTML looks like</li>
 			<li>After making changes, click "Update Demo" to get a working example of your mapped image.</li>
 		</ol>
 	</section>
 	
-	<section id="unmapped-img-container" class="image-container">
-		<img id="unmapped-img" src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png">
+	<section id="unmapped_img_container" class="image_container">
+		<img id="unmapped_img" src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png">
 	</section>
 	
-	<section class="html-gen-container">
-		<button id="gen-html-btn">Generate HTML</button>
-		<button id="reset-btn">Reset</button>
-		<textarea id="html-output"></textarea>
+	<section class="html_gen_container">
+		<button id="html_gen_btn">Generate HTML</button>
+		<button id="reset_btn">Reset</button>
+		<textarea id="html_output"></textarea>
 	</section>
 	
-	<section class="html-demo-container">
-		<button id="update-demo-btn">Update Demo</button>
-		<div id="html-demo"></div>
+	<section class="html_demo_container">
+		<button id="update_demo_btn">Update Demo</button>
+		<div id="html_demo"></div>
 	</section>
 </main>
 
 
 <!-- JavaScript Secion -->
+<!-- jQuery 3.3.1 -->
 <script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous">var jQuery = $.noConflict();</script>
+	src="https://code.jquery.com/jquery-3.3.1.min.js"
+	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+	crossorigin="anonymous">var jQuery = $.noConflict();</script>
+<!-- jQuery-UI 1.12.1 -->
+<script
+	src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+	integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+	crossorigin="anonymous"></script>
+<!-- image mapper script -->
 <script src="img-mapper.js"></script>
 </body>
 </html>
