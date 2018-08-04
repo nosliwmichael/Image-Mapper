@@ -115,6 +115,7 @@ function updateDivPosition(area_tag) {
 /* Change the image source when the URL input box text changes */
 function updateImgSrc(event) {
 	var src_url = ($url_input.val() == "") ? defaultImgURL : $url_input.val();
+	resetPage(event);
 	$unmapped_img.attr('src', src_url);
 }
 
