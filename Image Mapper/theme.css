@@ -10,6 +10,9 @@ body {
 
 
 main {
+	/* IE Support */
+	display: block;
+	
 	/* Size */
 	max-width: 900px;
 	min-width: 500px;
