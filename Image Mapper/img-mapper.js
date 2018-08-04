@@ -100,6 +100,9 @@ function generateHTML(event) {
 
 /* Reset all elements and global variables */
 function resetPage(event) {
+	/* Reset all_area_tags array */
+	all_area_tags = [];
+	
 	/* Reset URL input box */
 	jQuery('#url-input').val('');
 	
