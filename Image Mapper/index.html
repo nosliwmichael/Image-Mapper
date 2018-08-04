@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+	<title>Image Mapper</title>
+	<link rel="stylesheet" href="theme.css">
+</head>
+<body>
+
+<main>
+	<section class="top-section">
+		<h1>Create Links Over Your Image</h1>
+		<label to="url-input">URL: </label>
+		<input id="url-input"></input>
+	</section>
+	
+	<section class="instructions">
+		<ol>
+			<li>Click and drag your mouse over the section of the image you want to have a link.</li>
+			<li>Use the Right Mouse Button to make a link that opens in a new window.</li>
+			<li>Click on one of your selected areas to set the URL for your link.</li>
+		</ol>
+	</section>
+	
+	<section id="unmapped-img-container" class="image-container">
+		<img id="unmapped-img" src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png">
+	</section>
+	
+	<section class="html-gen-container">
+		<button id="gen-html-btn">Generate HTML Button</button>
+		<button id="reset-btn">Reset</button>
+		<textarea id="html-output"></textarea>
+	</section>
+	
+	<section class="html-demo-container">
+		<button id="update-demo-btn">Update Demo</button>
+		<div id="html-demo"></div>
+	</section>
+</main>
+
+
+<!-- JavaScript Secion -->
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous">var jQuery = $.noConflict();</script>
+<script src="img-mapper.js"></script>
+</body>
+</htm>

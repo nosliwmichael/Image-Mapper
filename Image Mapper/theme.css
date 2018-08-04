@@ -1,0 +1,74 @@
+/* All HTML */
+* {
+	padding: 0;
+	margin: 0;
+	font-family: Arial, Helvetica, sans-serif;
+}
+body {
+	background-color: #12395b;
+}
+
+
+main {
+	/* Size */
+	max-width: 900px;
+	min-width: 500px;
+	width: 80%;
+	
+	/* Style */
+	background-color: #ddd;
+	box-shadow: 0px 2px 5px 1px black;
+	border-radius: 4px;
+	
+	/* Positioning */
+	padding: .5em;
+	margin: 1em auto;
+	text-align: center;
+}
+
+/* Sections */
+section {
+	margin: .5em auto;
+}
+.top-section h1 { color: #12395b; }
+.top-section input {
+	max-width: 500px;
+	min-width: 300px;
+	width: 60%;
+}
+.instructions {
+	min-width: 400px;
+	width:60%;
+	margin: auto;
+	text-align: left;
+	font-size: .9em;
+}
+.image-container {
+	position: relative;
+	display: inline-block;
+	border: 1px solid black;
+	background-color: white;
+}
+.html-gen-container #html-output {
+	margin: .5em auto;
+	display: block;
+	max-width: 700px;
+	min-width: 400px;
+	width:60%;
+	height: 20em;
+	resize: none;
+	overflow: auto;
+}
+
+/* Generated Elements */
+.link-box {
+	position: absolute;
+	border: 2px solid red;
+	background: none;
+	resize: both;
+	overflow: auto;
+}
+.link-box:hover {
+	cursor: pointer;
+	background: rgba(32, 57, 18, .5);
+}
