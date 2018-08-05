@@ -1,19 +1,16 @@
 /* ==========================
-        Global Variables
+		Global Variables
    ========================== */
 const defaultImgURL = 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png';
 
 /* Contains all area tags on the image */
 var all_area_tags = [];
+var selected_area_tag;
 /* Area Tag Class*/
 function Area_Tag() {
 	this.url = ""; // URL to website or file
 	this.newWindow = false; // Link target type; _blank or _self
 	this.div = null; // jQuery object
-	this.left = 0; // X position
-	this.top = 0; // Y position
-	this.width = 0; // Div width
-	this.height = 0; // Div height
 };
 
 /* jQuery Objects */
@@ -26,9 +23,11 @@ var $html_output = null;
 var $update_demo_btn = null;
 var $html_demo = null;
 
+/* Flags */
+var is_mouse_down = false;
 
 /* ===================
-        Functions
+		Functions
    =================== */
 /* Initialize variables and event listeners */
 jQuery(document).ready(function() {
@@ -40,11 +39,11 @@ jQuery(document).ready(function() {
 	$html_gen_btn = jQuery('#html_gen_btn');
 	$reset_btn = jQuery('#reset_btn');
 	$html_output = jQuery('#html_output');
-	$update_demo_btn = jQuery('#update_demo_btn');
 	$html_demo = jQuery('#html_demo');
 	
 	/* Text changed event */
 	$url_input.change(updateImgSrc);
+	$html_output.on('input', updateDemo);
 
 	/* Mouse Events */
 	$unmapped_img_container.contextmenu(function() { return false; }); // Prevent right click menu
@@ -54,60 +53,49 @@ jQuery(document).ready(function() {
 	/* Button Events */
 	$html_gen_btn.click(generateHTML);
 	$reset_btn.click(resetPage);
-	$update_demo_btn.click(updateDemo);
 	
 	/* Keydown Events */
 	jQuery(document).keydown(keyEvents);
 });
 
-/* Draw div where the link will go */
-function drawDiv(area_tag) {
-	area_tag.div = jQuery('<div></div>'); // Create new div element
-	var div_class = (area_tag.newWindow) ? 'link_box_blue' : 'link_box_red';
-	area_tag.div.addClass('link_box ' + div_class);
-	area_tag.div.css({
-		'top': area_tag.top,
-		'left': area_tag.left,
-		'width': area_tag.width,
-		'height': area_tag.height
-	});
+/* Create a new div for the area_tag */
+function createDiv(area_tag, div_top, div_left) {
+	area_tag.div = jQuery('<div class="link_box"></div>'); // Create a new div element
+	setDivClass(area_tag);
+	area_tag.div.css({ 'top': div_top, 'left': div_left,
+					   'width': 5, 'height': 5 });
 	$unmapped_img_container.append(area_tag.div);
 	
-	// Set .link-box Event Listeners
+	/* AREA TAG DIV EVENT LISTENERS */
 	area_tag.div.dblclick(assignLink);
 	area_tag.div.mousedown(function(event) {
-		if (event.which == 1) {
-			jQuery('.link_box').each(function(i, v) {
-				if (v == event.currentTarget) {
-					area_tag.div.removeClass('link_box_red');
-					area_tag.div.removeClass('link_box_blue');
-					area_tag.div.addClass('link_box_selected');
-				} else {
-					var not_selected = jQuery(v);
-					var not_selected_class = (all_area_tags[i].newWindow) ? 'link_box_blue' : 'link_box_red';
-					not_selected.removeClass('link_box_selected');
-					not_selected.addClass(not_selected_class);
-				}
-			});
-			updateDivPosition(area_tag);
-		}
-	});
-	area_tag.div.mouseup(function(event) {
-		updateDivPosition(area_tag);
+		setDivClass(area_tag);
 	});
 	area_tag.div.draggable({
 		containment: 'parent'
 	});
 	area_tag.div.resizable();
 }
-
-/* Update the div's position whenver a change is detected and before generating html */
-function updateDivPosition(area_tag) {
-	area_tag.top = area_tag.div.position().top;
-	area_tag.left = area_tag.div.position().left;
-	area_tag.width = area_tag.div.width();
-	area_tag.height = area_tag.div.height();
+/* Set the size of the div then append to the DOM */
+function setDivSize(area_tag, div_width, div_height) {
+	area_tag.div.css({ 'width': div_width, 'height': div_height });
 }
+
+/* Set the class names for the div element */
+function setDivClass(area_tag) {
+	/* Set the selected area tag div class */
+	area_tag.div.removeClass('link_box_red link_box_blue');
+	area_tag.div.addClass('link_box_selected');
+	selected_area_tag = area_tag;
+	
+	jQuery.each(all_area_tags, function(index, value) {
+		if (value != area_tag) {
+			value.div.removeClass('link_box_selected');
+			value.div.addClass((value.newWindow) ? 'link_box_blue' : 'link_box_red');
+		}
+	});
+}
+
 
 /* ======================
        EVENT HANDLERS
@@ -121,67 +109,74 @@ function updateImgSrc(event) {
 
 /* Mouse Down Event Handler */
 function mouseDownEvent(event) {
-	var area_tag = new Area_Tag();
-	area_tag.left = event.offsetX;
-	area_tag.top = event.offsetY;
-	all_area_tags.push(area_tag);
-	
+	selected_area_tag = new Area_Tag();
+	selected_area_tag.newWindow = ((event.which == 3) ? true : false);
+	all_area_tags.push(selected_area_tag);
+	createDiv(selected_area_tag, event.offsetY, event.offsetX);
 	return false;
 }
 
 /* Mouse Up Event Handler */
-function mouseUpEvent(event) {
-	var area_tag = all_area_tags[all_area_tags.length-1]; // Get the most recently created area tag
-	area_tag.width = event.offsetX - area_tag.left;
-	area_tag.height = event.offsetY - area_tag.top;
-	area_tag.newWindow = ((event.which == 3) ? true : false);
-	drawDiv(area_tag);
+function mouseUpEvent(event) { console.log(event);
+	var div_width = event.offsetX - selected_area_tag.div.position().left;
+	var div_height = event.offsetY - selected_area_tag.div.position().top;
+	setDivSize(selected_area_tag, div_width, div_height);
 	return false;
 }
 
 /* Assign a link to the area tag */
 function assignLink(event) {
-	var link_index = null;
-	for (var i = 0; i < all_area_tags.length; i++) {
-		if (all_area_tags[i].div[0] == event.currentTarget) {
-			link_index = i;
-		}
-	}
-	var new_link = prompt('Please enter the URL you want this area to link to:', all_area_tags[link_index].url);
-	all_area_tags[link_index].url = new_link;
+	selected_area_tag.url = prompt('Please enter the URL you want this area to link to:', selected_area_tag.url);
 }
 
 /* Execute function when a key is pressed */
 function keyEvents(event) {
-	var link_index = null;
-	for (var i = 0; i < all_area_tags.length; i++) {
-		if (all_area_tags[i].div.hasClass('link_box_selected')) {
-			link_index = i;
+	if (selected_area_tag != null && !$html_output.is(':focus') && !$url_input.is(':focus')) {
+		switch(event.keyCode) {
+			/* Sizing Shortcut Keys */
+			case 187: // Plus
+			case 107: // Increases Width
+				selected_area_tag.div.width(selected_area_tag.div.width() + 1);
+				break;
+			case 189: // Minus
+			case 109: // Decreases Width
+				selected_area_tag.div.width(selected_area_tag.div.width() - 1);
+				break;
+			
+			case 17: // Ctrl, Increases Height
+				selected_area_tag.div.height(selected_area_tag.div.height() + 1);
+				break;
+			case 16: // Shift, Decreases Height
+				selected_area_tag.div.height(selected_area_tag.div.height() - 1);
+				break;
+				
+			/* Positioning Shortcut Keys */
+			case 38: // Up Arrow Key
+				selected_area_tag.div.css('top', selected_area_tag.div.position().top - 1);
+				event.preventDefault();
+				break;
+			case 40: // Down Arrow Key
+				selected_area_tag.div.css('top', selected_area_tag.div.position().top + 1);
+				event.preventDefault();
+				break;
+			case 37: // Left Arrow Key
+				selected_area_tag.div.css('left', selected_area_tag.div.position().left - 1);
+				event.preventDefault();
+				break;
+			case 39: // Right Arrow Key
+				selected_area_tag.div.css('left', selected_area_tag.div.position().left + 1);
+				event.preventDefault();
+				break;
+			case 46: // Delete Key
+				selected_area_tag.div.remove(); // Remove div from page
+				all_area_tags.splice(all_area_tags.indexOf(selected_area_tag), 1); // Remove element from array
+				if (all_area_tags.length > 0) {
+					selected_area_tag = all_area_tags[0];
+					setDivClass(selected_area_tag);
+				}
+				else { selected_area_tag = null; }
+				break;
 		}
-	}
-	switch(event.key.toLowerCase()) {
-		case "delete":
-			if (link_index != null) {
-				all_area_tags[link_index].div.remove();
-				all_area_tags.splice(link_index, 1);
-			}
-			break;
-		case "arrowup":
-			var current_pos = all_area_tags[link_index].div.position().top;
-			all_area_tags[link_index].div.css('top', current_pos-1);
-			break;
-		case "arrowdown":
-			var current_pos = all_area_tags[link_index].div.position().top;
-			all_area_tags[link_index].div.css('top', current_pos+1);
-			break;
-		case "arrowleft":
-			var current_pos = all_area_tags[link_index].div.position().left;
-			all_area_tags[link_index].div.css('left', current_pos-1);
-			break;
-		case "arrowright":
-			var current_pos = all_area_tags[link_index].div.position().left;
-			all_area_tags[link_index].div.css('left', current_pos+1);
-			break;
 	}
 }
 
@@ -194,25 +189,28 @@ function generateHTML(event) {
 	html_elements += '\n\n<!-- Image Map -->';
 	html_elements += '\n<map name="img-map">';
 	jQuery.each(all_area_tags, function(index, value) {
-		updateDivPosition(value);
-		var x1 = value.left;
-		var y1 = value.top;
-		var x2 = value.left + value.width;; // Add the width of the div to the starting X position 
-		var y2 = value.top + value.height; // Add the height of the div to the starting Y position
-		html_elements += '\n\t<area shape="rect"'+
-			'coords="' + x1 + ',' + y1 + ',' + x2 + ',' + y2 + '"'+
-			'href="' + value.url + '"'+
+		var x1 = value.div.position().left;
+		var y1 = value.div.position().top;
+		var x2 = value.div.position().left + value.div.width(); // Add the width of the div to the starting X position 
+		var y2 = value.div.position().top + value.div.height(); // Add the height of the div to the starting Y position
+		html_elements += '\n\t<area shape="rect" '+
+			'coords="' + x1 + ',' + y1 + ',' + x2 + ',' + y2 + '" '+
+			'href="' + value.url + '" '+
 			'target="' + ((value.newWindow) ? "_blank" : "_self") + '">';
 	});
 	html_elements += '\n</map>';
 	
 	$html_output.val(html_elements);
+	updateDemo(event);
 }
 
 /* Reset all elements and global variables */
 function resetPage(event) {
 	/* Reset all_area_tags array */
 	all_area_tags = [];
+	
+	/* Clear selected area tag object */
+	selected_area_tag = '';
 	
 	/* Remove link-box div elements */
 	jQuery('.link_box').remove();
