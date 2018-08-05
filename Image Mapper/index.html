@@ -12,22 +12,24 @@
 <main>
 	<section class="top_section">
 		<h1>Create Links Over Your Image</h1>
-		<label to="url_input">URL: </label>
+		<label to="url_input">Image URL: </label>
 		<input id="url_input">
 	</section>
 	
 	<section class="instructions">
 		<ol>
 			<li>Click and drag your mouse over the section of the image you want to have a link. 
-			    Left Mouse Button = Same Window, Right Mouse Button = New Window.</li>
+			<br>Left Click: Link opens in same window.
+			<br>Right Click: Link opens in new window.</li>
 			<li>Double-click on one of your selected areas to set the URL for your link.</li>
-			<li>Click "Generate HTML" to see what the HTML looks like</li>
-			<li>After making changes, click "Update Demo" to get a working example of your mapped image.</li>
+			<li>Drag or resize your selections with the mouse or keyboard shortcuts.</li>
 		</ol>
+		<br>
+		<p>Move: Arrow Keys, Remove: Delete Key, Adjust Height: Ctrl/Shift, Adjust Width: +/-</p>
 	</section>
 	
 	<section id="unmapped_img_container" class="image_container">
-		<img id="unmapped_img" src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png">
+			<img id="unmapped_img" src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png">
 	</section>
 	
 	<section class="html_gen_container">
@@ -37,7 +39,6 @@
 	</section>
 	
 	<section class="html_demo_container">
-		<button id="update_demo_btn">Update Demo</button>
 		<div id="html_demo"></div>
 	</section>
 </main>
